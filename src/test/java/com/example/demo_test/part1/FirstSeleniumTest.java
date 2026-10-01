@@ -7,7 +7,11 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.*;
 import org.testng.annotations.Test;
+import java.time.Duration;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class FirstSeleniumTest {
 
@@ -19,21 +23,19 @@ public class FirstSeleniumTest {
         FirefoxOptions options = new FirefoxOptions();
 
         options.setBinary(
-                "/snap/firefox/current/usr/lib/firefox/firefox"
-        );
+                "/snap/firefox/current/usr/lib/firefox/firefox");
 
         driver = new FirefoxDriver(options);
 
         driver.manage().window().maximize();
 
         driver.get(
-                "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"
-        );
+                "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
     }
 
     @AfterClass
     public void tearDown() {
-        driver.quit();
+        // driver.quit();
     }
 
     @Test
@@ -48,5 +50,16 @@ public class FirstSeleniumTest {
         password.sendKeys("admin123");
 
         driver.findElement(By.tagName("button")).click();
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        WebElement dashboard = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(
+                        By.xpath("//h6[normalize-space()='Dashboard']")));
+
+        String result = dashboard.getText();
+        String expResult = "Dashboard";
+
+        Assert.assertEquals(result, expResult);
     }
 }
