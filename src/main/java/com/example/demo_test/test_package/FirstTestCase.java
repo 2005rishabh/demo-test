@@ -1,9 +1,12 @@
 package com.example.demo_test.test_package;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ByIdOrName;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+import org.openqa.selenium.*;
+
 
 public class FirstTestCase {
     WebDriver driver;
@@ -20,6 +23,17 @@ public class FirstTestCase {
         driver.quit();
     }
 
-    
+    @Test
+    public void testLoggingIntoApplication() throws InterruptedException {
+
+        Thread.sleep(2000);
+        WebElement username = driver.findElement(ByIdOrName.name("username"));
+        username.sendKeys("Admin");
+        var password  = driver.findElement(ByIdOrName.name("password"));
+        password.sendKeys("admin123");
+
+        driver.findElement(ByIdOrName.tagName("button")).click();
+    }
+
 
 }
